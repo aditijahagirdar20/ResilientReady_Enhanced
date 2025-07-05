@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resilient Ready - Emergency Preparedness</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 5px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-tab {
+            padding: 12px 30px;
+            margin: 0 5px;
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 40px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tab.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-tab:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .page {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(20px);
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-item:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+            width: auto;
+        }
+
+        .checkbox-item.checked {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .kit-result {
+            margin-top: 30px;
+            padding: 0;
+            display: none;
+        }
+
+        .kit-result.show {
+            display: block;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .kit-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .kit-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .kit-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .kit-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .kit-category {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f0f0f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .kit-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .kit-category h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .category-icon {
+            font-size: 1.6rem;
+            padding: 8px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .kit-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .kit-item {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .kit-item:hover {
+            background: linear-gradient(135deg, #e8eaff 0%, #dde0ff 100%);
+            transform: translateX(5px);
+        }
+
+        .kit-item .icon {
+            font-size: 1.3rem;
+            min-width: 24px;
+            margin-top: 2px;
+        }
+
+        .kit-item-text {
+            flex: 1;
+            line-height: 1.4;
+            font-size: 0.95rem;
+        }
+
+        .disaster-tips {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f0f0f0;
+            display: none;
+        }
+
+        .disaster-tips.show {
+            display: block;
+            animation: slideIn 0.6s ease-out 0.2s both;
+        }
+
+        .disaster-tips h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .disaster-section {
+            margin-bottom: 30px;
+        }
+
+        .disaster-section h3 {
+            color: #e17055;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 2px solid #ffeaa7;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .tip {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 4px solid #e17055;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .tip:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quiz-question {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .quiz-question h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .quiz-option {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .quiz-option:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .quiz-option.correct {
+            background: #00b894;
+            color: white;
+            border-color: #00b894;
+        }
+
+        .quiz-option.incorrect {
+            background: #e17055;
+            color: white;
+            border-color: #e17055;
+        }
+
+        .badge-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .badge {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .badge:hover {
+            transform: translateY(-5px);
+        }
+
+        .badge.earned {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border: 2px solid #ff9a56;
+        }
+
+        .badge-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .badge-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .badge-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transition: width 0.5s ease;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tabs {
+                flex-wrap: wrap;
+                border-radius: 15px;
+            }
+
+            .nav-tab {
+                margin: 5px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .kit-categories {
+                grid-template-columns: 1fr;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ Resilient Ready</h1>
+            <p>Your personalized emergency preparedness companion</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-page="kit-builder">🎒 Kit Builder</button>
+            <button class="nav-tab" data-page="quiz">🧠 Disaster Quiz</button>
+            <button class="nav-tab" data-page="badges">🏆 My Badges</button>
+        </div>
+
+        <div id="kit-builder" class="page active">
+            <h2>🎒 Build Your Personal Emergency Kit</h2>
+            <form id="kitForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location Type</label>
+                        <select id="location" required>
+                            <option value="">Select location</option>
+                            <option value="urban">Urban/City</option>
+                            <option value="suburban">Suburban</option>
+                            <option value="rural">Rural</option>
+                            <option value="coastal">Coastal</option>
+                            <option value="mountain">Mountain</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="housing">Housing Type</label>
+                        <select id="housing" required>
+                            <option value="">Select housing</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="house">House</option>
+                            <option value="mobile">Mobile Home</option>
+                            <option value="condo">Condominium</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="familySize">Family Size</label>
+                        <input type="number" id="familySize" min="1" max="20" placeholder="Number of people" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Family Members</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="infants" value="infants">
+                            <label for="infants">👶 Infants/Toddlers</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="children" value="children">
+                            <label for="children">🧒 Children</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="elderly" value="elderly">
+                            <label for="elderly">👴 Elderly</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="disabled" value="disabled">
+                            <label for="disabled">♿ Disabled/Special Needs</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pets" value="pets">
+                            <label for="pets">🐕 Pets</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Potential Disasters in Your Area</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="earthquake" value="earthquake">
+                            <label for="earthquake">🌍 Earthquake</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="flood" value="flood">
+                            <label for="flood">🌊 Flood</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="hurricane" value="hurricane">
+                            <label for="hurricane">🌀 Hurricane</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tornado" value="tornado">
+                            <label for="tornado">🌪️ Tornado</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="wildfire" value="wildfire">
+                            <label for="wildfire">🔥 Wildfire</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="blizzard" value="blizzard">
+                            <label for="blizzard">❄️ Blizzard</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="heatwave" value="heatwave">
+                            <label for="heatwave">🌡️ Heatwave</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="drought" value="drought">
+                            <label for="drought">🏜️ Drought</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="poweroutage" value="poweroutage">
+                            <label for="poweroutage">⚡ Power Outage</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pandemic" value="pandemic">
+                            <label for="pandemic">🦠 Pandemic</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="terrorism" value="terrorism">
+                            <label for="terrorism">💣 War</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="waterblock" value="waterblock">
+                            <label for="waterblock">🚰 Water System Blockage</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="landslide" value="landslide">
+                            <label for="landslide">🏔️ Landslide</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="sinkhole" value="sinkhole">
+                            <label for="sinkhole">🕳️ Sinkhole</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tsunami" value="tsunami">
+                            <label for="tsunami">🌊 Tsunami</label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="sustainable">
+                        <label for="sustainable">🌱 Prefer eco-friendly/sustainable options</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">Generate My Emergency Kit</button>
+            </form>
+
+            <div id="kitResult" class="kit-result"></div>
+            <div id="disasterTips" class="disaster-tips"></div>
+        </div>
+
+        <div id="quiz" class="page">
+            <div class="quiz-container">
+                <h2>🧠 Disaster Preparedness Quiz</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div id="quizContent">
+                    <p>Test your knowledge and earn disaster-specific badges!</p>
+                    <button class="btn" onclick="startQuiz()">Start Quiz</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="badges" class="page">
+            <h2>🏆 Your Achievement Badges</h2>
+            <div class="badge-showcase" id="badgeShowcase">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        function resetFormExceptCore() {
+            const form = document.getElementById('kitForm');
+
+            // Reset only fields except family members and disasters
+            form.querySelector('#name').value = '';
+            form.querySelector('#location').selectedIndex = 0;
+            form.querySelector('#housing').selectedIndex = 0;
+            form.querySelector('#familySize').value = '';
+            form.querySelector('#sustainable').checked = false;
+
+            // Hide kit result and tips
+            document.getElementById('kitResult').style.display = 'none';
+            document.getElementById('disasterTips').style.display = 'none';
+
+            // Scroll back to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        let currentPage = 'kit-builder';
+        let userBadges = [];
+        let quizData = [];
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let currentDisasterForQuiz = '';
+
+        // Category icons mapping
+        const categoryIcons = {
+            essential: '🏠',
+            food: '🍎',
+            safety: '🦺',
+            communication: '📱',
+            medical: '🏥',
+            special: '👨‍👩‍👧‍👦',
+            tools: '🔧',
+            sanitation: '🧼',
+            tsunami: '🌊'
+        };
+
+        // Disaster-specific quiz questions
+        const ALL_QUIZ_QUESTIONS = {
+            earthquake: [
+                {
+                    question: "What should you do immediately during an earthquake?",
+                    options: ["Run outside", "Drop, Cover, and Hold On", "Stand in a doorway", "Go to a window"],
+                    answer: "Drop, Cover, and Hold On"
+                },
+                {
+                    question: "After an earthquake, what is the safest way to get information?",
+                    options: ["Check social media", "Listen to a battery-powered radio", "Call emergency services", "Ask a neighbor"],
+                    answer: "Listen to a battery-powered radio"
+                }
+            ],
+            flood: [
+                {
+                    question: "What is the primary danger when driving through floodwaters?",
+                    options: ["Getting stuck", "Water damage to the car", "Being swept away", "Losing cell signal"],
+                    answer: "Being swept away"
+                },
+                {
+                    question: "If advised to evacuate due to flooding, what should you do with your utilities?",
+                    options: ["Leave them on", "Turn off water, gas, and electricity", "Only turn off electricity", "Only turn off water"],
+                    answer: "Turn off water, gas, and electricity"
+                }
+            ],
+            wildfire: [
+                {
+                    question: "What is 'defensible space' in relation to wildfires?",
+                    options: ["An underground bunker", "An area cleared of flammable materials around your home", "A public park for evacuation", "A designated fire-fighting zone"],
+                    answer: "An area cleared of flammable materials around your home"
+                },
+                {
+                    question: "What type of mask is recommended for wildfire smoke?",
+                    options: ["Surgical mask", "Cloth mask", "N95 mask", "Dust mask"],
+                    answer: "N95 mask"
+                }
+            ],
+            hurricane: [
+                {
+                    question: "What should you do with your windows before a hurricane hits?",
+                    options: ["Open them slightly", "Board them up", "Tape them with an 'X'", "Leave them as is"],
+                    answer: "Board them up"
+                },
+                {
+                    question: "Is it safe to go outside during the eye of a hurricane?",
+                    options: ["Yes, for a short break", "No, the storm can resume quickly", "Only if you stay close to your house", "Only if it's daytime"],
+                    answer: "No, the storm can resume quickly"
+                }
+            ],
+            tornado: [
+                {
+                    question: "Where is the safest place to take shelter during a tornado?",
+                    options: ["Near a window", "In an attic", "In a car", "In a basement or interior room on the lowest floor"],
+                    answer: "In a basement or interior room on the lowest floor"
+                },
+                {
+                    question: "What should you do to protect yourself if caught outdoors during a tornado?",
+                    options: ["Try to outrun it in a car", "Lie flat in a ditch or low-lying area", "Stand under a bridge", "Seek shelter under a large tree"],
+                    answer: "Lie flat in a ditch or low-lying area"
+                }
+            ],
+            blizzard: [
+                {
+                    question: "What is a major danger of using a generator indoors during a power outage?",
+                    options: ["Overheating", "Fire hazard", "Carbon monoxide poisoning", "Loud noise"],
+                    answer: "Carbon monoxide poisoning"
+                },
+                {
+                    question: "If stranded in a car during a blizzard, how often should you run the engine for heat?",
+                    options: ["Continuously", "Every 10 minutes", "For 5-10 minutes each hour, with a window slightly open", "Only when you feel extremely cold"],
+                    answer: "For 5-10 minutes each hour, with a window slightly open"
+                }
+            ],
+            heatwave: [
+                {
+                    question: "Which of these is most important during a heatwave?",
+                    options: ["Drinking sugary drinks", "Limiting fluid intake", "Staying hydrated with water and electrolytes", "Exercising vigorously outdoors"],
+                    answer: "Staying hydrated with water and electrolytes"
+                },
+                {
+                    question: "Is it safe to leave children or pets in a parked car during a heatwave?",
+                    options: ["Yes, if the windows are slightly open", "Yes, for a few minutes", "No, even for a short time", "Only if they are sleeping"],
+                    answer: "No, even for a short time"
+                }
+            ],
+            poweroutage: [
+                {
+                    question: "How can you keep food safe in your refrigerator/freezer during a power outage?",
+                    options: ["Open the doors frequently to check on food", "Leave doors closed as much as possible", "Move food outside", "Cook all perishable food immediately"],
+                    answer: "Leave doors closed as much as possible"
+                },
+                {
+                    question: "What should you use for lighting instead of candles during a power outage?",
+                    options: ["Oil lamps", "Matches", "Flashlights or battery-powered lanterns", "Campfire inside"],
+                    answer: "Flashlights or battery-powered lanterns"
+                }
+            ],
+            pandemic: [
+                {
+                    question: "What is a key measure to prevent the spread of a pandemic virus?",
+                    options: ["Attending large gatherings", "Maintaining social distancing", "Sharing personal items", "Ignoring health advisories"],
+                    answer: "Maintaining social distancing"
+                },
+                {
+                    question: "Why is it important to have a supply of prescription medications during a pandemic?",
+                    options: ["To share with neighbors", "To sell them", "To ensure continuity of treatment if access to pharmacies is limited", "To prevent expiration"],
+                    answer: "To ensure continuity of treatment if access to pharmacies is limited"
+                }
+            ],
+            tsunami: [
+                {
+                    question: "What should you do immediately after feeling an earthquake near a coast?",
+                    options: [
+                        "Wait for official instructions",
+                        "Move to the beach to observe",
+                        "Evacuate to higher ground immediately",
+                        "Call emergency services"
+                    ],
+                    answer: "Evacuate to higher ground immediately"
+                },
+                {
+                    question: "Which of the following is a natural tsunami warning sign?",
+                    options: [
+                        "Sudden drop in temperature",
+                        "Receding ocean water far from the shore",
+                        "Dark storm clouds",
+                        "Strong winds"
+                    ],
+                    answer: "Receding ocean water far from the shore"
+                }
+            ],
+        };
+
+        const ALL_BADGES = {
+            kitBuilder: { name: "Kit Master", icon: "🛠️", desc: "Successfully built a personalized emergency kit." },
+            earthquake: { name: "Quake Ready", icon: "🌍", desc: "Completed the Earthquake quiz." },
+            flood: { name: "Flood Fighter", icon: "🌊", desc: "Completed the Flood quiz." },
+            wildfire: { name: "Fire Warden", icon: "🔥", desc: "Completed the Wildfire quiz." },
+            hurricane: { name: "Hurricane Hero", icon: "🌀", desc: "Completed the Hurricane quiz." },
+            tornado: { name: "Tornado Trooper", icon: "🌪️", desc: "Completed the Tornado quiz." },
+            blizzard: { name: "Blizzard Buddy", icon: "❄️", desc: "Completed the Blizzard quiz." },
+            heatwave: { name: "Heatwave Helper", icon: "🌡️", desc: "Completed the Heatwave quiz." },
+            poweroutage: { name: "Power Protector", icon: "⚡", desc: "Completed the Power Outage quiz." },
+            pandemic: { name: "Pandemic Pro", icon: "🦠", desc: "Completed the Pandemic quiz." },
+            tsunami: {
+                name: "Tsunami Survivor",
+                icon: "🌊",
+                desc: "Completed the Tsunami quiz."
+            },
+            // Add more badges for other disasters if quizzes are added
+        };
+
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            // Load user badges from session storage
+            userBadges = JSON.parse(sessionStorage.getItem('userBadges') || '[]');
+
+            // Setup navigation
+            setupNavigation();
+
+            // Setup checkbox interactions
+            setupCheckboxes();
+
+            // Setup form submission
+            setupFormSubmission();
+
+            // Display initial badges on the badges page
+            displayBadges();
+
+            // Hide results and tips initially
+            document.getElementById('kitResult').style.display = 'none';
+            document.getElementById('disasterTips').style.display = 'none';
+        }
+
+        function setupNavigation() {
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    const pageId = this.getAttribute('data-page');
+                    showPage(pageId);
+                });
+            });
+        }
+
+        function setupCheckboxes() {
+            const checkboxItems = document.querySelectorAll('.checkbox-item');
+            checkboxItems.forEach(item => {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                item.addEventListener('click', function (e) {
+                    // Prevent label click from toggling twice if checkbox is also clicked
+                    if (e.target !== checkbox) {
+                        checkbox.checked = !checkbox.checked;
+                    }
+                    item.classList.toggle('checked', checkbox.checked);
+                });
+                // Initialize checked state based on actual checkbox state
+                item.classList.toggle('checked', checkbox.checked);
+            });
+        }
+
+        function setupFormSubmission() {
+            const form = document.getElementById('kitForm');
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                generateKit();
+            });
+        }
+
+        // Page navigation
+        function showPage(pageId) {
+            // Remove active classes
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+
+            // Add active classes
+            document.getElementById(pageId).classList.add('active');
+            document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+
+            // Update current page
+            currentPage = pageId;
+
+            // Special handling for badges page
+            if (pageId === 'badges') {
+                displayBadges();
+            } else if (pageId === 'quiz') {
+                // Reset quiz display when navigating to quiz page
+                document.getElementById('quizContent').innerHTML = `
+                    <p>Test your knowledge and earn disaster-specific badges!</p>
+                    <button class="btn" onclick="startQuiz()">Start Quiz</button>
+                `;
+                document.getElementById('progressFill').style.width = '0%';
+            }
+        }
+
+        function generateKit() {
+            const name = document.getElementById('name').value;
+            const location = document.getElementById('location').value;
+            const housing = document.getElementById('housing').value;
+            const familySize = parseInt(document.getElementById('familySize').value);
+            const sustainable = document.getElementById('sustainable').checked;
+
+            if (!name || !location || !housing || isNaN(familySize) || familySize < 1) {
+                alert('Please fill in all required fields for Kit Builder.');
+                return;
+            }
+            sessionStorage.setItem('savedName', name);
+            sessionStorage.setItem('savedLocation', location);
+            sessionStorage.setItem('savedHousing', housing);
+            sessionStorage.setItem('savedFamilySize', familySize);
+            sessionStorage.setItem('savedSustainable', sustainable);
+
+            const familyMembers = Array.from(document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked'))
+                .map(cb => cb.value)
+                .filter(value => ['infants', 'children', 'elderly', 'disabled', 'pets'].includes(value));
+
+            const potentialDisasterCheckboxes = document.querySelectorAll('#kit-builder .checkbox-group input[type="checkbox"]');
+            const disasters = Array.from(potentialDisasterCheckboxes)
+                .filter(cb => cb.checked && !['infants', 'children', 'elderly', 'disabled', 'pets', 'sustainable'].includes(cb.value))
+                .map(cb => cb.value);
+
+            console.log("Selected disasters:", disasters);
+
+            const kit = buildPersonalizedKit(name, location, housing, familySize, familyMembers, disasters, sustainable);
+            displayKit(kit, name);
+            displayDisasterTips(disasters);
+
+            // Show the result and tips sections
+            document.getElementById('kitResult').style.display = 'block';
+            document.getElementById('disasterTips').style.display = 'block';
+
+            // Award badge
+            awardBadge('kitBuilder');
+        }
+
+        function buildPersonalizedKit(name, location, housing, familySize, familyMembers, disasters, sustainable) {
+            const kit = {
+                essential: [],
+                food: [],
+                safety: [],
+                communication: [],
+                medical: [],
+                special: [],
+                tools: [],
+                sustainable: [] // ✅ NEW
+            };
+
+            // --- Base Essential Items (Universal) ---
+            kit.essential.push(
+                `Water (at least 1 gallon per person per day for 3 days - **${familySize * 3} gallons** total)`,
+                `Non-perishable food (3-day supply, high-calorie) - **${familySize * 3} days worth**`,
+                `First-aid kit (comprehensive)`,
+                `Flashlight (prefer ${sustainable ? 'solar/crank' : 'LED battery-powered'})`,
+                `Extra batteries (${sustainable ? 'rechargeable' : 'alkaline'} for battery-powered items)`,
+                `Whistle`,
+                `Dust masks (N95 or equivalent - **${familySize} pcs**)`,
+                `Plastic sheeting and duct tape (for shelter-in-place)`,
+                `Wrench or pliers (to turn off utilities)`,
+                `Manual can opener`,
+                `Local maps (physical copies)`,
+                `Important documents (copies in waterproof container: ID, insurance, bank records, etc.)`,
+                `Cash (small bills, includes coins)`,
+                `Sanitation and personal hygiene items (toilet paper, hand sanitizer, feminine hygiene, soap)`,
+                `Sleeping bag or warm blanket for each person`
+            );
+
+            // --- Family Composition Adjustments ---
+            if (familyMembers.includes('infants')) {
+                kit.special.push(
+                    `Infant formula/breast milk (3-7 day supply), bottles, sterilizing tablets`,
+                    `Diapers & wipes (generous supply)`,
+                    `Diaper rash cream`,
+                    `Baby food & feeding utensils`,
+                    `Infant-specific medications (e.g., fever reducer, oral rehydration salts)`,
+                    `Small comfort blanket/toy`
+                );
+            }
+            if (familyMembers.includes('children')) {
+                kit.special.push(
+                    `Children's medications (e.g., pain relievers, allergy meds)`,
+                    `Activity books, crayons, small games for entertainment`,
+                    `Comfort toys`
+                );
+            }
+            if (familyMembers.includes('elderly')) {
+                kit.special.push(
+                    `**Extra 7-14 day supply of ALL prescription medications**`,
+                    `Copies of medical records, doctor contacts, medication list`,
+                    `Mobility aids (extra batteries for hearing aids, spare glasses, cane/walker)`,
+                    `Adult incontinence supplies (if needed)`,
+                    `Special dietary foods (e.g., low sodium, diabetic-friendly)`,
+                    `Easy-to-open food packaging`
+                );
+                kit.communication.push(`Medical alert device with extra batteries`);
+            }
+            if (familyMembers.includes('disabled')) {
+                kit.special.push(
+                    `Specific medical supplies related to disability (e.g., catheters, ostomy supplies)`,
+                    `Assistive devices (e.g., spare wheelchair parts, communication devices, extra batteries)`,
+                    `Personal care items (if specialized)`,
+                    `Emergency contact list for caregivers/support network`
+                );
+            }
+            if (familyMembers.includes('pets')) {
+                kit.special.push(
+                    `Pet food (3-7 day supply) and water bowls`,
+                    `Leash, collar with ID tags, and carrier for each pet`,
+                    `Medications, vaccination records, and vet contact info for pets`,
+                    `Waste bags/litter and litter box (for cats)`,
+                    `Familiar toys/comfort items for pets`
+                );
+            }
+
+            // --- Location-Specific Recommendations ---
+            switch (location) {
+                case 'urban':
+                    kit.safety.push(`Personal alarm/whistle (for attracting attention in dense areas)`);
+                    kit.tools.push(`Compact multi-tool`);
+                    kit.essential.push(`Comfortable walking shoes (for potential long walks/evacuation)`);
+                    kit.communication.push(`Local public transportation maps`);
+                    break;
+                case 'rural':
+                    kit.food.push(`Water purification tablets/filter (larger capacity)`);
+                    kit.tools.push(`Axe or sturdy saw (for clearing small debris, if safe)`, `Shovel`);
+                    kit.communication.push(`Satellite phone or CB radio (if cell service is unreliable)`);
+                    kit.essential.push(`Physical compass and detailed local maps`);
+                    break;
+                case 'coastal':
+                    kit.safety.push(`Life jackets/personal flotation devices for each person`);
+                    kit.essential.push(`All kit items stored in waterproof bags/containers`);
+                    kit.tools.push(`Strong ropes and tarpaulins (for securing property)`);
+                    if (disasters.includes('hurricane') || disasters.includes('flood')) {
+                        kit.safety.push(`Sandbags (if property is at risk of flooding and can be safely deployed)`);
+                    }
+                    break;
+                case 'mountain':
+                    kit.essential.push(`Extra warm clothing layers`, `Emergency blankets (thermal)`);
+                    kit.food.push(`High-calorie, compact food that doesn't require cooking`);
+                    kit.tools.push(`Snow shovel (if applicable)`, `Ice axe/traction devices (seasonal)`);
+                    kit.safety.push(`Flares or signal mirror`);
+                    break;
+            }
+
+            // --- Housing-Type Considerations ---
+            switch (housing) {
+                case 'apartment':
+                case 'condo':
+                    kit.essential.push(`Emphasis on **portable bags** for quick evacuation`);
+                    kit.safety.push(`Small fire extinguisher (ABC type)`);
+                    kit.tools.push(`Wrench for gas/water shut-off (know your building's shut-off locations)`);
+                    break;
+                case 'house':
+                    kit.tools.push(`Plywood, hammer, nails (for boarding up windows if needed)`, `Large plastic sheeting for roof/window repair`);
+                    kit.safety.push(`ABC fire extinguisher (larger)`);
+                    kit.communication.push(`Weather radio with NOAA alerts`);
+                    break;
+                case 'mobile':
+                    kit.safety.push(`Specific tie-down equipment if in a mobile home park prone to high winds`);
+                    kit.essential.push(`Strong emphasis on pre-identified evacuation routes and shelter`);
+                    break;
+            }
+
+            // --- Climate-Conscious Alternatives ---
+            if (sustainable) {
+                // Modify existing items or add new eco-friendly ones
+                kit.sustainable.push(
+                    `Solar-powered flashlight`,
+                    `Hand-crank emergency radio`,
+                    `Rechargeable batteries with solar charger`,
+                    `Reusable water bottles & utensils`,
+                    `Biodegradable hygiene products`
+                );
+
+                // Personalized sustainable additions based on selected disasters
+                disasters.forEach(disaster => {
+                    switch (disaster) {
+                        case 'drought':
+                            kit.sustainable.push(
+                                `Rainwater harvesting system`,
+                                `Greywater recycling kits`,
+                                `Compost mulch for water retention in gardens`
+                            );
+                            break;
+
+                        case 'heatwave':
+                            kit.sustainable.push(
+                                `Solar-powered cooling fan`,
+                                `Reflective window shades (low energy usage)`,
+                                `Cooling scarf that uses evaporative fabric`
+                            );
+                            break;
+
+                        case 'wildfire':
+                            kit.sustainable.push(
+                                `Wool fire blanket (natural material)`,
+                                `Non-toxic smoke filters`,
+                                `Reusable respirator mask`
+                            );
+                            break;
+
+                        case 'poweroutage':
+                            kit.sustainable.push(
+                                `Solar generator (for small electronics)`,
+                                `Battery bank charged via sunlight`,
+                                `LED lantern with hand crank`
+                            );
+                            break;
+
+                        case 'flood':
+                            kit.sustainable.push(
+                                `Waterproof dry bag made from recycled materials`,
+                                `Reusable sandless flood barriers`,
+                                `Sump pump powered by renewable source`
+                            );
+                            break;
+
+                        case 'pandemic':
+                            kit.sustainable.push(
+                                `Reusable cloth masks with filters`,
+                                `Non-disposable gloves (with proper sanitation)`,
+                                `Refillable hand sanitizer bottles`
+                            );
+                            break;
+
+                        case 'earthquake':
+                            kit.sustainable.push(
+                                `Sustainably sourced emergency shelter (recycled tarps, eco-tents)`,
+                                `Biodegradable multi-use zip ties/ropes`,
+                                `Hand-powered water purifier`
+                            );
+                            break;
+
+                        case 'hurricane':
+                            kit.sustainable.push(
+                                `Storm shutters made of recycled materials`,
+                                `Solar-powered emergency weather radio`,
+                                `Waterproof bags from upcycled fabric`
+                            );
+                            break;
+
+                        case 'tornado':
+                            kit.sustainable.push(
+                                `Reinforced shelter kit made from sustainable materials`,
+                                `Manual air-purifying respirator`,
+                                `Upcycled foam mats for ground insulation`
+                            );
+                            break;
+
+                        case 'blizzard':
+                            kit.sustainable.push(
+                                `Wool thermal blankets (natural fiber)`,
+                                `Hand-knit or organic-layered cold-weather gear`,
+                                `Biodegradable ice melt (non-toxic to environment)`
+                            );
+                            break;
+
+                        case 'terrorism':
+                            kit.sustainable.push(
+                                `Minimalist "go bag" made with recycled military-grade fabric`,
+                                `Eco-conscious emergency communication device`,
+                                `Reusable identity and medical info card sleeves`
+                            );
+                            break;
+
+                        case 'waterblock': // Water system blockage
+                            kit.sustainable.push(
+                                `Water bricks for sustainable storage`,
+                                `Hand-pump ceramic water filter`,
+                                `Solar water disinfection kits (SODIS)`
+                            );
+                            break;
+
+                        case 'landslide':
+                            kit.sustainable.push(
+                                `Bamboo or hemp-based emergency stretcher`,
+                                `Natural-fiber rescue rope`,
+                                `Compact eco-friendly tarp for ground coverage`
+                            );
+                            break;
+
+                        case 'sinkhole':
+                            kit.sustainable.push(
+                                `Emergency air horn made from recyclable aluminum`,
+                                `Lightweight foldable ladder (recycled material)`,
+                                `Low-footprint signal lighting`
+                            );
+                            break;
+                        case 'tsunami':
+                            kit.sustainable.push(
+                                `Inflatable emergency raft (reusable)`,
+                                `Life jackets made from recycled materials`,
+                                `Dry bag made of eco-conscious waterproof fabric`,
+                                `Solar beacon or flare for emergency signaling`
+                            );
+                            break;
+                    }
+                });
+            }
+
+            // --- Disaster-Specific Kit Additions ---
+            disasters.forEach(disaster => {
+                switch (disaster) {
+                    case 'earthquake':
+                        kit.safety.push(`Work gloves (heavy duty)`);
+                        kit.tools.push(`Pry bar or crowbar (for moving debris)`);
+                        kit.essential.push(`Sturdy closed-toe shoes and socks for everyone`);
+                        kit.communication.push(`Family communication plan (out-of-state contact)`);
+                        break;
+                    case 'flood':
+                        kit.essential.push(`Waterproof bags/dry sacks (for valuables)`, `Rubber boots/waders`);
+                        kit.safety.push(`Life vests (if not already included by coastal rec)`, `Bucket for bailing water`);
+                        kit.medical.push(`Anti-fungal cream (for skin issues from prolonged dampness)`);
+                        break;
+                    case 'wildfire':
+                        kit.essential.push(`N95/KN95 masks (**${familySize} pcs**)`, `Goggles`);
+                        kit.safety.push(`Portable fire extinguisher (Class A or ABC)`);
+                        kit.tools.push(`Leather gloves`);
+                        break;
+                    case 'hurricane':
+                        kit.safety.push(`Board-up supplies (plywood, nails, tools)`);
+                        kit.communication.push(`Weather radio (crank or battery-powered with NOAA alerts)`);
+                        kit.food.push(`Non-perishable food that requires no cooking or refrigeration`);
+                        break;
+                    case 'tornado':
+                        kit.safety.push(`Bicycle helmets or protective headgear for each person`);
+                        kit.essential.push(`Sturdy shoes`);
+                        break;
+                    case 'blizzard':
+                        kit.essential.push(`Extra warm clothing (layers, waterproof outer shells)`, `Wool blankets`);
+                        kit.food.push(`High-calorie food that doesn't need heating`);
+                        kit.safety.push(`Rock salt or non-clumping cat litter (for traction)`);
+                        kit.tools.push(`Snow shovel`);
+                        break;
+                    case 'heatwave':
+                        kit.essential.push(`Cooling towels`, `Lightweight, light-colored clothing`);
+                        kit.medical.push(`Electrolyte tablets/powders`);
+                        kit.food.push(`Extra water supply`);
+                        break;
+                    case 'poweroutage':
+                        kit.essential.push(`Battery bank/power station (charged)`, `Solar charger for devices`);
+                        kit.food.push(`Food that doesn't require cooking/refrigeration`);
+                        kit.safety.push(`Carbon monoxide detector (battery-powered)`);
+                        break;
+                    case 'pandemic':
+                        kit.medical.push(
+                            `30-day supply of all prescription medications`,
+                            `Over-the-counter medications (fever reducers, cough syrup, antacids)`,
+                            `Extra N95/KN95 masks (at least **${familySize * 20}** for extended use)`,
+                            `Hand sanitizer (alcohol-based)`,
+                            `Disinfectant wipes/spray`
+                        );
+                        kit.essential.push(`Personal protective equipment (gloves)`);
+                        break;
+                    case 'terrorism': // General terrorism preparedness
+                        kit.safety.push(`"Go-bag" or "Bug-out Bag" concept: readily accessible, light kit for immediate evacuation.`);
+                        kit.communication.push(`Designated out-of-area contact person for family check-ins.`);
+                        kit.essential.push(`Compact water filtration straw/bottle.`);
+                        break;
+                    case 'waterblock': // Water System Blockage
+                        kit.essential.push(
+                            `**Increased water supply (at least 7 days)** - **${familySize * 7} gallons** total`,
+                            `Water purification tablets/system`,
+                            `Large containers for water storage`
+                        );
+                        kit.sanitation.push(`Camping toilet or bucket toilet with waste bags`);
+                        break;
+                    case 'landslide':
+                        kit.safety.push(`Emergency air horn (for signaling)`, `Sturdy helmets`);
+                        kit.tools.push(`Heavy-duty shovels`, `Pickaxe`);
+                        kit.essential.push(`Knowledge of local geological hazards and evacuation routes`);
+                        break;
+                    case 'sinkhole':
+                        kit.safety.push(`Personal floatation devices (PFDs) if near water sources affected`);
+                        kit.communication.push(`Loud whistle or air horn for signaling`);
+                        kit.essential.push(`Knowledge of local geology and designated safe zones`);
+                        break;
+                    case 'drought':
+                        kit.essential.push(
+                            `**Expanded water storage solutions (e.g., larger barrels, bladders)**`,
+                            `Water purification system with spare filters`,
+                            `Information on water conservation and rationing`
+                        );
+                        kit.food.push(`Non-perishable, low-water-requiring food items`);
+                        break;
+                    case 'tsunami':
+                        kit.essential.push(
+                            `Evacuation plan with mapped high ground routes`,
+                            `Waterproof document pouch (for IDs, maps, contacts)`,
+                            `Spare dry clothing in waterproof bags`
+                        );
+                        kit.safety.push(
+                            `Life jackets for each family member`,
+                            `Personal emergency flotation device`
+                        );
+                        kit.communication.push(
+                            `Emergency whistle or air horn`,
+                            `Portable waterproof radio (preferably solar/crank)`
+                        );
+                        kit.tools.push(
+                            `Waterproof flashlight`,
+                            `Compact rope or paracord for rescue/anchoring`
+                        );
+                        break;
+
+                }
+            });
+
+            // Remove duplicates and format
+            for (const category in kit) {
+                kit[category] = [...new Set(kit[category])].sort();
+            }
+            if (kit.essential.length > 7) {
+                kit.essential = kit.essential.slice(0, 7);
+            }
+
+
+            return kit;
+        }
+
+
+        function displayKit(kit, name) {
+            const resultDiv = document.getElementById('kitResult');
+            let html = `<h2>🌟 Your Personalized Emergency Kit, ${name}!</h2>`;
+
+            for (const category in kit) {
+                if (kit[category].length > 0) {
+                    html += `<div class="kit-category"><h3>${capitalizeFirstLetter(category)} Essentials</h3><div class="kit-items">`;
+                    kit[category].forEach(item => {
+                        const icon = categoryIcons[category] || '📦';
+                        html += `<div class="kit-item"><span class="icon">${icon}</span><span>${item}</span></div>`;
+
+                    });
+                    html += `</div></div>`;
+                }
+            }
+            ;
+            resultDiv.innerHTML = html;
+        }
+
+        function displayDisasterTips(disasters) {
+            const tipsDiv = document.getElementById('disasterTips');
+            let html = `<h2>💡 Personalized Safety Tips</h2>`;
+
+            if (disasters.length === 0) {
+                html += `<p>Select potential disasters to get tailored safety tips.</p>`;
+            } else {
+                disasters.forEach(disaster => {
+                    const tips = getDisasterSpecificTips(disaster);
+                    if (tips.length > 0) {
+                        html += `<h3>Tips for ${capitalizeFirstLetter(disaster)}</h3>`;
+                        tips.forEach(tip => {
+                            html += `<div class="tip">${tip}</div>`;
+                        });
+                    }
+                });
+            }
+            html += `<div style="margin-top:30px; text-align:center;">
+    <button class="btn" onclick="resetFormExceptCore()">🔄 Go Back and Adjust Kit</button>
+</div>`;
+            tipsDiv.innerHTML = html;
+        }
+        function resetFormExceptCore() {
+            const form = document.getElementById('kitForm');
+
+            // Restore saved values
+            document.getElementById('name').value = sessionStorage.getItem('savedName') || '';
+            document.getElementById('location').value = sessionStorage.getItem('savedLocation') || '';
+            document.getElementById('housing').value = sessionStorage.getItem('savedHousing') || '';
+            document.getElementById('familySize').value = sessionStorage.getItem('savedFamilySize') || '';
+            document.getElementById('sustainable').checked = sessionStorage.getItem('savedSustainable') === 'true';
+
+
+            // Hide result and tips
+            document.getElementById('kitResult').style.display = 'none';
+            document.getElementById('disasterTips').style.display = 'none';
+
+            // Scroll back to the top of the form
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+        function getDisasterSpecificTips(disaster) {
+            const tips = {
+                earthquake: [
+                    "**Drop, Cover, and Hold On:** Get under a sturdy piece of furniture and hold on until the shaking stops.",
+                    "Stay away from windows, outside doors, and exterior walls.",
+                    "If outdoors, move to a clear area away from buildings, trees, and utility wires.",
+                    "Aftershocks can occur. Be prepared for more shaking.",
+                    "Check for injuries and render first aid where necessary. Do not move seriously injured persons unless they are in immediate danger.",
+                    "If you smell gas or suspect a leak, open windows and doors, leave the building immediately, and report it from a safe location.",
+                ],
+                flood: [
+                    "**Turn Around, Don't Drown:** Never drive or walk through floodwaters. Even 6 inches of moving water can knock you down.",
+                    "If advised to evacuate, do so immediately. Turn off utilities (water, gas, electricity) if safe.",
+                    "Move valuable items and documents to higher floors or secure locations.",
+                    "Stay informed by listening to local news or a weather radio.",
+                    "Be aware of potential hazards like downed power lines and contaminated water after a flood.",
+                ],
+                wildfire: [
+                    "**Create Defensible Space:** Clear flammable materials at least 30 feet around your home.",
+                    "Have multiple escape routes planned from your home and neighborhood.",
+                    "Listen to emergency alerts and evacuate immediately if told to do so.",
+                    "Wear an N95 mask to protect against smoke if you must be outdoors.",
+                    "Close all windows and doors to prevent embers from entering your home.",
+                ],
+                hurricane: [
+                    "**Board up windows and secure loose outdoor items.**",
+                    "Know your evacuation zone and plan your route.",
+                    "Keep your vehicle's fuel tank full.",
+                    "Never go outside during the 'eye' of the hurricane; the other side of the storm is coming.",
+                    "Be prepared for extended power outages and potential flooding."
+                ],
+                tornado: [
+                    "**Go to a basement, storm cellar, or an interior room on the lowest floor.** Stay away from windows.",
+                    "If outdoors, lie flat in a ditch or other low-lying area and cover your head with your arms.",
+                    "Do not try to outrun a tornado in a car in urban or congested areas.",
+                    "Protect your head and neck with your arms or a blanket.",
+                    "Stay informed with a weather radio or emergency alerts."
+                ],
+                blizzard: [
+                    "**Stay indoors during the storm.** If you must go out, dress in layers and wear a hat, gloves, and waterproof boots.",
+                    "Avoid driving; if stranded in your car, stay with it and run the engine for 5-10 minutes each hour for heat, cracking a window slightly.",
+                    "Clear exhaust pipes if in a vehicle to prevent carbon monoxide poisoning.",
+                    "Have alternative heating methods, but ensure proper ventilation to prevent carbon monoxide.",
+                    "Check on elderly neighbors and those who may need assistance."
+                ],
+                heatwave: [
+                    "**Stay hydrated:** Drink plenty of water and electrolyte-rich fluids, even if you don't feel thirsty.",
+                    "Avoid strenuous activities during the hottest parts of the day.",
+                    "Spend time in air-conditioned places if possible (malls, libraries, cooling centers).",
+                    "Wear lightweight, loose-fitting, and light-colored clothing.",
+                    "Never leave children, pets, or anyone vulnerable in a parked car."
+                ],
+                poweroutage: [
+                    "**Unplug electronics** to protect them from power surges when electricity returns.",
+                    "Use flashlights or battery-powered lanterns instead of candles to prevent fire hazards.",
+                    "Keep refrigerator and freezer doors closed as much as possible to preserve food.",
+                    "Have a battery-powered or crank radio for news and information.",
+                    "If using a generator, ensure it's outdoors and away from windows/vents to prevent carbon monoxide poisoning."
+                ],
+                pandemic: [
+                    "**Follow public health guidelines** on handwashing, social distancing, and mask-wearing.",
+                    "Have a 30-day supply of prescription medications and over-the-counter necessities.",
+                    "Stay informed from reputable sources like WHO or national health authorities.",
+                    "Develop a communication plan for family members in case of separation.",
+                    "Prepare for potential disruptions to school, work, and public services."
+                ],
+                terrorism: [
+                    "**Be aware of your surroundings** and report suspicious activities to authorities.",
+                    "Have multiple escape routes planned from frequently visited places (work, school).",
+                    "Follow the 'Run, Hide, Fight' protocol in an active threat situation.",
+                    "Know emergency exits in public venues.",
+                    "Prepare a 'go-bag' for quick evacuation."
+                ],
+                waterblock: [
+                    "**Conserve all available water.** Use it only for critical needs like drinking.",
+                    "Boil water if instructed by authorities, or use purification tablets/filters.",
+                    "Know where your main water shut-off valve is for your home.",
+                    "Have a plan for sanitation without running water (e.g., bucket toilet with liners).",
+                    "Rely on stored water or emergency sources until public supply is restored and deemed safe."
+                ],
+                landslide: [
+                    "**Evacuate immediately if you are in a landslide-prone area and a warning is issued.**",
+                    "Listen for unusual sounds that might indicate moving debris, like trees cracking or boulders knocking.",
+                    "If indoors, move to the highest ground and stay away from windows.",
+                    "If outdoors and unable to escape, curl into a ball and protect your head.",
+                    "Be aware that floods often accompany landslides, creating additional hazards."
+                ],
+                sinkhole: [
+                    "**If you suspect a sinkhole, immediately evacuate the area and keep others away.**",
+                    "Do not approach the edge of a sinkhole; the ground around it may be unstable.",
+                    "Report sinkholes to local emergency services or geological surveys.",
+                    "Be mindful of ground stability, especially after heavy rains or changes in drainage.",
+                    "If your home is affected, consult with structural engineers before re-entry."
+                ],
+                drought: [
+                    "**Implement strict water conservation measures immediately.** Fix leaks, take shorter showers, run full loads of laundry.",
+                    "Review and update your emergency water supply and purification methods.",
+                    "Be aware of increased fire danger due to dry conditions; avoid outdoor burning.",
+                    "Monitor local advisories for water restrictions or rationing.",
+                    "Consider investing in rainwater harvesting systems for future resilience."
+                ],
+                tsunami: [
+                    "**Move inland and to higher ground immediately** after feeling an earthquake near the coast.",
+                    "Don’t wait for official alerts if you see the ocean rapidly recede or hear a roaring sound.",
+                    "Know your evacuation routes ahead of time if you live near a coastline.",
+                    "Stay away from the beach — a tsunami may come in multiple waves over hours.",
+                    "Keep a battery-powered or hand-crank radio to listen for emergency broadcasts."
+                ]
+
+            };
+            return tips[disaster] || [];
+        }
+
+
+        // Quiz Functions
+        function startQuiz() {
+            // Get selected disasters from the kit builder page
+            const selectedDisasters = Array.from(document.querySelectorAll('#kit-builder .checkbox-group input[type="checkbox"]:checked'))
+                .map(cb => cb.value)
+                .filter(value => ALL_QUIZ_QUESTIONS[value]); // Filter to only include disasters for which we have quizzes
+
+            if (selectedDisasters.length === 0) {
+                alert("Please select at least one disaster in the 'Kit Builder' tab to start a personalized quiz!");
+                return;
+            }
+
+            // Shuffle selected disasters to pick one randomly for the quiz
+            const randomDisaster = selectedDisasters[Math.floor(Math.random() * selectedDisasters.length)];
+            currentDisasterForQuiz = randomDisaster;
+
+            quizData = ALL_QUIZ_QUESTIONS[currentDisasterForQuiz] || [];
+            if (quizData.length === 0) {
+                alert(`No quiz questions available for ${capitalizeFirstLetter(currentDisasterForQuiz)} yet.`);
+                return;
+            }
+
+            // Shuffle questions for variety
+            quizData = quizData.sort(() => Math.random() - 0.5);
+
+            currentQuizIndex = 0;
+            quizScore = 0;
+            displayQuizQuestion();
+        }
+
+
+        function displayQuizQuestion() {
+            const quizContentDiv = document.getElementById('quizContent');
+            const progressFill = document.getElementById('progressFill');
+
+            if (currentQuizIndex < quizData.length) {
+                const questionData = quizData[currentQuizIndex];
+                let optionsHtml = questionData.options.map((option, index) =>
+                    `<div class="quiz-option" onclick="checkAnswer(${index})">${option}</div>`
+                ).join('');
+
+                quizContentDiv.innerHTML = `
+                    <div class="quiz-question">
+                        <h3>${questionData.question}</h3>
+                        <div class="quiz-options">${optionsHtml}</div>
+                    </div>
+                `;
+                progressFill.style.width = `${((currentQuizIndex + 1) / quizData.length) * 100}%`;
+            } else {
+                quizContentDiv.innerHTML = `
+                    <h3>Quiz Complete!</h3>
+                    <p>You scored ${quizScore} out of ${quizData.length} for the ${capitalizeFirstLetter(currentDisasterForQuiz)} quiz.</p>
+                    <button class="btn" onclick="startQuiz()">Try Another Quiz</button>
+                    <button class="btn" onclick="showPage('badges')">View Badges</button>
+                `;
+                // If the user scores perfectly, award the badge
+                if (quizScore === quizData.length) {
+                    awardBadge(currentDisasterForQuiz);
+                }
+            }
+        }
+
+        function checkAnswer(selectedIndex) {
+            const questionData = quizData[currentQuizIndex];
+            const selectedOption = questionData.options[selectedIndex];
+            const quizOptionsDiv = document.querySelector('.quiz-options');
+            const allOptions = quizOptionsDiv.querySelectorAll('.quiz-option');
+
+            allOptions.forEach((optionDiv, index) => {
+                optionDiv.style.pointerEvents = 'none'; // Disable further clicks
+                if (index === selectedIndex) {
+                    if (selectedOption === questionData.answer) {
+                        optionDiv.classList.add('correct');
+                        quizScore++;
+                    } else {
+                        optionDiv.classList.add('incorrect');
+                    }
+                }
+                // Highlight the correct answer if the selected one was wrong
+                if (optionDiv.textContent === questionData.answer && selectedOption !== questionData.answer) {
+                    optionDiv.classList.add('correct');
+                }
+            });
+
+            // Move to next question after a short delay
+            setTimeout(() => {
+                currentQuizIndex++;
+                displayQuizQuestion();
+            }, 1500); // 1.5 second delay
+        }
+
+        // Badge Functions
+        function awardBadge(badgeId) {
+            if (!userBadges.includes(badgeId) && ALL_BADGES[badgeId]) {
+                userBadges.push(badgeId);
+                sessionStorage.setItem('userBadges', JSON.stringify(userBadges));
+                alert(`🎉 You earned the "${ALL_BADGES[badgeId].name}" badge!`);
+                displayBadges(); // Update the badges page if visible
+            }
+        }
+
+        function displayBadges() {
+            const badgeShowcase = document.getElementById('badgeShowcase');
+            let html = '';
+            for (const id in ALL_BADGES) {
+                const badge = ALL_BADGES[id];
+                const earnedClass = userBadges.includes(id) ? 'earned' : '';
+                html += `
+                    <div class="badge ${earnedClass}">
+                        <div class="badge-icon">${badge.icon}</div>
+                        <div class="badge-name">${badge.name}</div>
+                        <div class="badge-desc">${badge.desc}</div>
+                    </div>
+                `;
+            }
+            badgeShowcase.innerHTML = html;
+        }
+
+        // Utility Function
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+    </script>
+</body>
+
+</html>
